@@ -1,0 +1,29 @@
+#pragma once
+
+#include<iostream>
+#include<string>
+
+#include<OpenNI.h>
+#include<opencv2/core.hpp>
+#include<opencv2/highgui.hpp>
+#include<opencv2/imgproc.hpp>
+
+
+using namespace std;
+using namespace openni;
+using namespace cv;
+
+class Util
+{
+public:
+	Util();
+	~Util();
+
+	static void getError(Status status,string msg, void(*fp)());
+	static void getError(Status status, string msg, VideoStream &stream);
+	static void getError(Status status, string msg);
+	static void oni2Mat(VideoFrameRef &oniCv, Mat &dst);
+	static void equalizeHist(Mat &src, Mat &dst);
+	
+};
+
