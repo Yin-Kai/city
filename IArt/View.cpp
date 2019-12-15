@@ -14,7 +14,6 @@ public:
 	{
 		stream.readFrame(&mniFrame);
 		Util::oni2Mat(mniFrame, mcvFrame);
-		//equalizeHist(mcvDepthFrame, mcvDepthFrame);
 		imshow("color", mcvFrame);
 	}
 
@@ -45,13 +44,16 @@ public:
 		//mController->mDepthFrame = mcvFrame;
 
 		//开操作
-		morphologyEx(mcvFrame, mController->mDepthFrame, MORPH_OPEN, Mat(),Point(-1,-1),2);
+		//morphologyEx(mcvFrame, mController->mDepthFrame, MORPH_OPEN, Mat(),Point(-1,-1),2);
+
+		//膨胀
+		dilate(mcvFrame, mController->mDepthFrame, Mat(), Point(-1, -1), 2);
 
 		mController->play();
 	}
 private:
 	//高度，单位mm
-	const int threshold_min_value = 100;
+	const int threshold_min_value = 150;
 	const int threshold_max_value = 3000;
 
 	VideoController *mController = VideoController::getVideoController();
@@ -167,6 +169,7 @@ void View::init()
 
 	int depthWidth = depthMode.getResolutionX();
 	int depthHeight = depthMode.getResolutionY();
+
 	int colorWidth = colorMode.getResolutionX();
 	int colorHeight = colorMode.getResolutionY();
 

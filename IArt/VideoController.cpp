@@ -51,25 +51,14 @@ void VideoController::play()
 
 		mMixFrame.copyTo(tmpBackGround, tmpGrayMixFrame);
 	}
+
+	//TODO 采用白色雾气遮罩
+
 	
 	//黑色遮罩
-	Util::equalizeHist(mDepthFrame, mDepthFrame);
-	normalize(mDepthFrame, tmpDepthFrame, 0.5, 1.0, NORM_MINMAX);
-	//Util::equalizeHist(mDepthFrame, tmpDepthFrame);
+	//normalize(mDepthFrame, tmpDepthFrame, 0.2, 1.0, NORM_MINMAX,CV_16FC1);
 
-	vector<Mat> alpha;
-	alpha.push_back(tmpDepthFrame);
-	alpha.push_back(tmpDepthFrame);
-	alpha.push_back(tmpDepthFrame);
-	merge(alpha, tmpAlpha);
-
-	//convertScaleAbs(tmpDepthFrame, tmpDepthFrame, 255);
-	//imshow("depth", tmpDepthFrame);//test
-
-	//透明通道叠加
-	//addWeighted(tmpBackGround, 0.3, tmpAlpha, 0.7, 0, tmpBackGround);
-
-	multiply(tmpAlpha, tmpBackGround, tmpBackGround);
+	//Util::addWeighted(tmpBackGround, tmpDepthFrame, tmpBackGround);
 
 	imshow("test", tmpBackGround);
 }

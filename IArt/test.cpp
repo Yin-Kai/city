@@ -2,14 +2,14 @@
 #include"View.h"
 
 
-//int main(int argc, char** argv)
-//{
-//	View view;
-//	view.init();
-//	view.display();
-//
-//	return 0;
-//}
+int main(int argc, char** argv)
+{
+	View view;
+	view.init();
+	view.display();
+
+	return 0;
+}
 
 
 
