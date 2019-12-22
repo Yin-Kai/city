@@ -193,7 +193,6 @@ void View::display()
 	//namedWindow(DepthWindow);
 	//namedWindow(ColorWindow);
 
-	namedWindow("test");
 	//namedWindow("depth");
 
 	char key = 0;

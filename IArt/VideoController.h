@@ -55,6 +55,7 @@ public:
 	static VideoController* getVideoController();
 
 	void play();
+	void getXY(int x, int y);
 
 	Mat mDepthFrame;
 
@@ -67,12 +68,14 @@ private:
 
 	VideoPlayer mVideoPlayer[ANIMATION_NUM];
 	Mat mMixFrame;
-	Mat tmpBackGroundINV;
 	Mat tmpGrayMixFrame;
 	Mat tmpBackGround;
-	Mat tmpAlpha;
-	Mat tmpGrayBackground;
 	Mat tmpDepthFrame;
+	Mat fog;
+
+	int x = 0;
+	int y = 0;
+	bool doseErase = false;
 };
 
 

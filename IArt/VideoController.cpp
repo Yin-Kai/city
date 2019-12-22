@@ -10,17 +10,15 @@ VideoController::VideoController()
 
 	//初始化Mat
 	mMixFrame = Mat::zeros(VIDEO_SIZE, CV_8UC3);
-	//tmpDepthFrame = Mat(VIDEO_SIZE, CV_32FC3);
 
 	mBackground = imread("res/background.jpg");
 	if (mBackground.empty())
-	{
 		cout << "imread failed" << endl;
-	}
 	else
-	{
 		resize(mBackground, mBackground, VIDEO_SIZE);
-	}
+
+	fog = imread("res/fog.png", IMREAD_UNCHANGED);
+	resize(fog, fog, mBackground.size());
 }
 
 VideoController::~VideoController()
@@ -52,15 +50,26 @@ void VideoController::play()
 		mMixFrame.copyTo(tmpBackGround, tmpGrayMixFrame);
 	}
 
-	//TODO 采用白色雾气遮罩
+	//白色雾气遮罩
+	if (doseErase) {
+		Util::erase(fog, fog, x, y);
+		doseErase = false;
+	}
 
+	Util::mix(tmpBackGround, fog, tmpBackGround);
 	
 	//黑色遮罩
 	//normalize(mDepthFrame, tmpDepthFrame, 0.2, 1.0, NORM_MINMAX,CV_16FC1);
-
 	//Util::addWeighted(tmpBackGround, tmpDepthFrame, tmpBackGround);
 
 	imshow("test", tmpBackGround);
+}
+
+void VideoController::getXY(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+	doseErase = true;
 }
 
 //判断是否触发动画

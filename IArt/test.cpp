@@ -1,9 +1,33 @@
 #include"Util.h"
 #include"View.h"
+#include"VideoController.h"
 
+bool flag = false;
+
+void mouseCallback(int mouseEvent, int x, int y, int flags, void* param) {
+	switch (mouseEvent) {
+	case EVENT_LBUTTONDOWN:
+		flag = true;
+		break;
+	case EVENT_MOUSEMOVE:
+		if (flag)
+			VideoController::getVideoController()->getXY(x, y);
+		cout << x << " " << y << endl;
+		break;
+	case EVENT_LBUTTONUP:
+		flag = false;
+		break;
+	default:
+		break;
+	}
+}
 
 int main(int argc, char** argv)
 {
+	namedWindow("test");
+
+	setMouseCallback("test", mouseCallback);
+
 	View view;
 	view.init();
 	view.display();

@@ -1,14 +1,32 @@
 #include "Util.h"
 
 
+#define BRUSH_SIZE Size(50,50)
+
 
 Util::Util()
 {
+	//单通道灰度图
+	Mat tmpBrush = imread("brush/brush.png", IMREAD_UNCHANGED);
+	resize(tmpBrush, tmpBrush, BRUSH_SIZE);
+
+	if (tmpBrush.channels() == 4)
+		cvtColor(tmpBrush, tmpBrush, COLOR_BGRA2GRAY);
+	else if(tmpBrush.channels() == 3)
+		cvtColor(tmpBrush, tmpBrush, COLOR_BGR2GRAY);
+
+	brush = tmpBrush;
+	brush = 255 - brush;
 }
 
 
 Util::~Util()
 {
+}
+
+void Util::init()
+{
+
 }
 
 //print error and execute the function "fp"
@@ -95,8 +113,81 @@ void Util::addWeighted(Mat& src1, Mat& src2, Mat& dst)
 	}
 }
 
+//将src2覆盖到src1上
+//正常的透明图层混合模式
+void Util::mix(Mat& src1, Mat& src2, Mat& dst)
+{
+	vector<Mat> src1Channels;
+	vector<Mat> src2Channels;
 
+	split(src1, src1Channels);
+	split(src2, src2Channels);
 
+	Mat invAlpha = 255 - src2Channels[3];
+
+	for (int i = 0; i < 3; i++)
+	{
+		src1Channels[i] = src1Channels[i].mul(invAlpha, 1.0 / 255);
+		src1Channels[i] += src2Channels[i].mul(src2Channels[3], 1.0 / 255);
+	}
+
+	merge(src1Channels, dst);
+}
+
+//x,y为中心坐标
+void Util::erase(Mat& src, Mat& dst,int x,int y)
+{
+	int lefttopX = 0;
+	int lefttopY = 0;
+
+	int brushX = 0;
+	int brushY = 0;
+	int brushWidth = brush.cols;
+	int brushHeight = brush.rows;
+
+	//左边界
+	if (x > brush.cols / 2)
+		lefttopX = x - brush.cols / 2;
+	else {
+		brushX = brush.cols / 2 - x;
+		brushWidth = brush.cols - brushX;
+	}
+
+	//右边界
+	if (x >= src.cols - brush.cols / 2)
+		brushWidth = src.cols - lefttopX;
+
+	//上边界
+	if (y > brush.rows / 2)
+		lefttopY = y - brush.rows / 2;
+	else {
+		brushY = brush.rows / 2 - y;
+		brushHeight = brush.rows - brushY;
+	}
+
+	//下边界
+	if (y >= src.rows - brush.rows / 2)
+		brushHeight = src.rows - lefttopY;
+
+	Rect srcROI(lefttopX, lefttopY, brushWidth, brushHeight);
+	Rect brushROI(brushX, brushY, brushWidth, brushHeight);
+
+	vector<Mat> srcChannels;
+	split(src, srcChannels);
+
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	srcChannels[i](srcROI) = srcChannels[i](srcROI).mul(brush(brushROI), 1.0 / 255);
+	//}
+
+	srcChannels[3](srcROI) = srcChannels[3](srcROI).mul(brush(brushROI), 1.0 / 255);
+
+	merge(srcChannels, dst);
+}
+
+Mat Util::brush;
+
+Util useless;
 
 
 
