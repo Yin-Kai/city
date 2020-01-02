@@ -1,7 +1,7 @@
 #include "Util.h"
 
 
-#define BRUSH_SIZE Size(50,50)
+#define BRUSH_SIZE Size(136,184)
 
 
 Util::Util()
@@ -16,7 +16,7 @@ Util::Util()
 		cvtColor(tmpBrush, tmpBrush, COLOR_BGR2GRAY);
 
 	brush = tmpBrush;
-	brush = 255 - brush;
+	//brush = 255 - brush;
 }
 
 
@@ -175,12 +175,16 @@ void Util::erase(Mat& src, Mat& dst,int x,int y)
 	vector<Mat> srcChannels;
 	split(src, srcChannels);
 
+	//3个通道
 	//for (int i = 0; i < 3; i++)
 	//{
 	//	srcChannels[i](srcROI) = srcChannels[i](srcROI).mul(brush(brushROI), 1.0 / 255);
 	//}
 
-	srcChannels[3](srcROI) = srcChannels[3](srcROI).mul(brush(brushROI), 1.0 / 255);
+	//alpha通道
+	//srcChannels[3](srcROI) = srcChannels[3](srcROI).mul(brush(brushROI), 1.0 / 255);
+
+	srcChannels[3](srcROI) -= brush(brushROI);
 
 	merge(srcChannels, dst);
 }

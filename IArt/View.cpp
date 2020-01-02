@@ -35,19 +35,19 @@ public:
 		Util::oni2Mat(mniFrame, mcvFrame);
 
 		//深度转换为高度
-		mcvFrame = CAPTURE_HEIGHT - mcvFrame;
+		//mcvFrame = CAPTURE_HEIGHT - mcvFrame;
 
 		//除去过高、过低的值
-		threshold(mcvFrame, mcvFrame, threshold_min_value, 255, THRESH_TOZERO);
-		threshold(mcvFrame, mcvFrame, threshold_max_value, 255, THRESH_TOZERO_INV);
+		//threshold(mcvFrame, mcvFrame, threshold_min_value, 255, THRESH_TOZERO);
+		//threshold(mcvFrame, mcvFrame, threshold_max_value, 255, THRESH_TOZERO_INV);
 
-		//mController->mDepthFrame = mcvFrame;
+		////mController->mDepthFrame = mcvFrame;
 
 		//开操作
-		//morphologyEx(mcvFrame, mController->mDepthFrame, MORPH_OPEN, Mat(),Point(-1,-1),2);
+		////morphologyEx(mcvFrame, mController->mDepthFrame, MORPH_OPEN, Mat(),Point(-1,-1),2);
 
 		//膨胀
-		dilate(mcvFrame, mController->mDepthFrame, Mat(), Point(-1, -1), 2);
+		//dilate(mcvFrame, mController->mDepthFrame, Mat(), Point(-1, -1), 2);
 
 		mController->play();
 	}
@@ -245,7 +245,7 @@ void View::display()
 
 		key = waitKey(30);
 
-		Sleep(100);
+		//Sleep(50);
 	}
 
 	//mColorStream.removeNewFrameListener(&colorListener);

@@ -55,7 +55,7 @@ public:
 	static VideoController* getVideoController();
 
 	void play();
-	void getXY(int x, int y);
+	void setXY(int x, int y);
 
 	Mat mDepthFrame;
 

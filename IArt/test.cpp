@@ -11,8 +11,7 @@ void mouseCallback(int mouseEvent, int x, int y, int flags, void* param) {
 		break;
 	case EVENT_MOUSEMOVE:
 		if (flag)
-			VideoController::getVideoController()->getXY(x, y);
-		cout << x << " " << y << endl;
+			VideoController::getVideoController()->setXY(x, y);
 		break;
 	case EVENT_LBUTTONUP:
 		flag = false;

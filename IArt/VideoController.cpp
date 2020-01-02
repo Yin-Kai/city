@@ -61,11 +61,11 @@ void VideoController::play()
 	//╨зи╚узуж
 	//normalize(mDepthFrame, tmpDepthFrame, 0.2, 1.0, NORM_MINMAX,CV_16FC1);
 	//Util::addWeighted(tmpBackGround, tmpDepthFrame, tmpBackGround);
-
+	
 	imshow("test", tmpBackGround);
 }
 
-void VideoController::getXY(int x, int y)
+void VideoController::setXY(int x, int y)
 {
 	this->x = x;
 	this->y = y;
@@ -77,19 +77,19 @@ bool VideoController::judge()
 {
 	bool flag = false;
 
-	for (size_t i = 0; i < ANIMATION_NUM; i++)
-	{
-		if (mDepthFrame.at<UINT16>(mVideoPlayer[i].mPoint) > MIN_HEIGHT && !mVideoPlayer[i].isPlaying)
-			mVideoPlayer[i].isPlaying = true;
+	//for (size_t i = 0; i < ANIMATION_NUM; i++)
+	//{
+	//	if (mDepthFrame.at<UINT16>(mVideoPlayer[i].mPoint) > MIN_HEIGHT && !mVideoPlayer[i].isPlaying)
+	//		mVideoPlayer[i].isPlaying = true;
 
-		mVideoPlayer[i].getFrame();
+	//	mVideoPlayer[i].getFrame();
 
-		if (mVideoPlayer[i].isPlaying)
-		{
-			mMixFrame += mVideoPlayer[i].frame;
-			flag = true;
-		}
-	}
+	//	if (mVideoPlayer[i].isPlaying)
+	//	{
+	//		mMixFrame += mVideoPlayer[i].frame;
+	//		flag = true;
+	//	}
+	//}
 
 	return flag;
 }
